@@ -1,9 +1,14 @@
 {
     "name": "retardlog",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "description": "Retardedly basic console and file logging",
     "author": "Karl Morrison <karl@basickarl.io>",
     "license": "WTFPL",
+    "keywords": [
+        "log", 
+        "logging",
+        "retard"
+    ],
     "repository": {
         "type": "git",
         "url": "git@github.com:basickarl/retardlog.git"
