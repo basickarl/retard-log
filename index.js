@@ -1,5 +1,6 @@
 
 const fs = require('fs');
+const path = require('path');
 
 const chalk = require('chalk');
 
@@ -72,15 +73,12 @@ function printToConsole(timestamp, level, unfilteredString) {
     process.stdout.write(log);
 }
 
-function appendToFile(path) {
+function appendToFile(relativePath) {
+    const absolutePath = path.resolve(relativePath);
     return function(timestamp, level, unfilteredString) {
         const string = filterString(unfilteredString);
         const log = `${timestamp} ${level} ${string}\n`;
-        fs.appendFile(path, log, (error) => {  
-            if (error) {
-                throw error;
-            }
-        });
+        fs.appendFileSync(absolutePath, log);
     }
 }
 
