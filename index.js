@@ -70,6 +70,8 @@ function formatArguments(arguments) {
             newString += argument.toString();
         } else if (argument.constructor === Error) {
             newString += argument.stack;
+        } else if (argument.constructor === Object) {
+            newString += JSON.stringify(argument, null, 4);
         } else {
             newString += argument.toString();
         }

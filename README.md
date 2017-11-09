@@ -12,7 +12,7 @@ const log = retardlog.create([
     }
 ]);
 
-log.info('herro', 1, 3.4, null, undefined, [1, 9], new Error('crap'), true);
+log.info('herro', 1, 3.4, null, undefined, [1, 9], new Error('crap'), true, { wtf: 'k' });
 log.error(new Error('F*ck'));
 log.warn('This is a warning');
 log.info('God');
@@ -30,7 +30,9 @@ Will result in the following:
     at Function.Module._load (module.js:495:3)
     at Function.Module.runMain (module.js:682:10)
     at startup (bootstrap_node.js:191:16)
-    at bootstrap_node.js:613:3 true
+    at bootstrap_node.js:613:3 true {
+    "wtf": "k"
+}
 2017-11-07 15:43:39 UTC+1  ERROR Error: F*ck
     at Object.<anonymous> (/Users/karl/dev/retardlog/index.js:153:11)
     at Module._compile (module.js:641:30)
