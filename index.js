@@ -45,18 +45,39 @@ function getTimestamp() {
     return timestamp;
 }
 
-function filterString(unfilteredString) {
-    let string;
-    if (unfilteredString instanceof Error) {
-        string = unfilteredString.stack;
-    } else {
-        string = unfilteredString.toString();
-    }
+function formatArguments(arguments) {
+    const string = arguments.reduce((string, argument) => {
+        let newString
+
+        if (string === '') {
+            newString = string;
+        } else {
+            newString = `${string} `;
+        }
+
+        if (argument === undefined) {
+            newString += undefined;
+        } else if (argument === null) {
+            newString += argument;
+        } else if (argument.constructor === Array) {
+            newString += argument.toString();
+        } else if (argument.constructor === String) {
+            newString += argument;
+        } else if (argument.constructor === Number) {
+            newString += argument.toString();
+        } else if (argument.constructor === Boolean) {
+            newString += argument.toString();
+        } else if (argument.constructor === Error) {
+            newString += argument.stack;
+        }
+
+        return newString;
+    }, '');
+
     return string;
 }
 
-function printToConsole(timestamp, level, unfilteredString) {
-    const string = filterString(unfilteredString);
+function printToConsole(timestamp, level, string) {
     let log;
     if (level === 'ERROR') {
         log = `${chalk.grey(timestamp)}  ${chalk.bgBlack(chalk.redBright(chalk.bold(level)))} ${string}\n`;
@@ -75,8 +96,7 @@ function printToConsole(timestamp, level, unfilteredString) {
 
 function appendToFile(relativePath) {
     const absolutePath = path.resolve(relativePath);
-    return function(timestamp, level, unfilteredString) {
-        const string = filterString(unfilteredString);
+    return function(timestamp, level, string) {
         const log = `${timestamp} ${level} ${string}\n`;
         fs.appendFileSync(absolutePath, log);
     }
@@ -94,36 +114,41 @@ const Retardlog = function(options) {
         }
     });
 
-    this.error = function(string) {
+    this.error = function(...arguments) {
         const timestamp = getTimestamp();
+        const string = formatArguments(arguments);
         if (shouldPrintToConsole) {
             printToConsole(timestamp, 'ERROR', string);
         }
         files.forEach(func => func(timestamp, 'ERROR', string));
     }
-    this.warn = function (string) {
+    this.warn = function (...arguments) {
         const timestamp = getTimestamp();
+        const string = formatArguments(arguments);
         if (shouldPrintToConsole) {
             printToConsole(timestamp, 'WARN', string);
         }
         files.forEach(func => func(timestamp, ' WARN', string));
     }
-    this.info = function (string) {
+    this.info = function (...arguments) {
         const timestamp = getTimestamp();
+        const string = formatArguments(arguments);
         if (shouldPrintToConsole) {
             printToConsole(timestamp, 'INFO', string);
         }
         files.forEach(func => func(timestamp, ' INFO', string));
     }
-    this.debug = function(string) {
+    this.debug = function(...arguments) {
         const timestamp = getTimestamp();
+        const string = formatArguments(arguments);
         if (shouldPrintToConsole) {
             printToConsole(timestamp, 'DEBUG', string);
         }
         files.forEach(func => func(timestamp, 'DEBUG', string));
     }
-    this.trace = function(string) {
+    this.trace = function(...arguments) {
         const timestamp = getTimestamp();
+        const string = formatArguments(arguments);
         if (shouldPrintToConsole) {
             printToConsole(timestamp, 'TRACE', string);
         }

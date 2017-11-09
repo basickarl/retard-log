@@ -1,6 +1,6 @@
 {
     "name": "retardlog",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "description": "Retardedly basic console and file logging",
     "author": "Karl Morrison <karl@basickarl.io>",
     "license": "WTFPL",
