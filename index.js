@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 const chalk = require('chalk');
+const stripAnsi = require('strip-ansi');
 
 function getTimestamp() {
     const date = new Date();
@@ -97,7 +98,8 @@ function printToConsole(timestamp, level, string) {
 function appendToFile(relativePath) {
     const absolutePath = path.resolve(relativePath);
     return function(timestamp, level, string) {
-        const log = `${timestamp} ${level} ${string}\n`;
+        const strippedString = stripAnsi(string);
+        const log = `${timestamp} ${level} ${strippedString}\n`;
         fs.appendFileSync(absolutePath, log);
     }
 }
