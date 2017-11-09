@@ -70,6 +70,8 @@ function formatArguments(arguments) {
             newString += argument.toString();
         } else if (argument.constructor === Error) {
             newString += argument.stack;
+        } else {
+            newString += argument.toString();
         }
 
         return newString;
