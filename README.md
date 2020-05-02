@@ -1,3 +1,5 @@
+***DEPRECATED use the following package instead: https://github.com/langurama/log***
+
 Due to the retardedness of some of the libraries not providing a *simple* human readable logging library, which can log to file and stdout, I had to tell someone to hold my beer so I could.
 ```
 const retardlog = require('retardlog');
